@@ -1,0 +1,9 @@
+Package: ch.bonventre.systemoverwrite
+Name: SystemOverwrite
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: Leroy <admin@bonventre.ch>
+Author: Leroy <admin@bonventre.ch>
+Section: Tweaks
