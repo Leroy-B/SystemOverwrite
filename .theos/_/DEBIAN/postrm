@@ -1,6 +1,0 @@
-#!/bin/bash
-
-echo -e "<div><style>span{color:orange;}</style><span>I hope you had a good time with SystemOverwrite 😊</span>"
-echo -e "<div><style>span{color:orange;}</style><span>If you uninstalled SystemOverwrite because you had issues please report them to me!</span>"
-
-curl -s --request GET "http://repo.bonventre.ch/counter.php?filename=SystemOverwrite.deb&action=remove" > /dev/null 2>&1
