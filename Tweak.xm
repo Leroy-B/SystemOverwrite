@@ -38,7 +38,7 @@ static void loadPrefs() {
 -(void)setText:(NSString *)arg1 {
 	// NSLog(@"SystemOverwrite LOG: UILabel arg1: %@", arg1);
 	if(twIsEnabled) {
-		// arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
 	}
 	%orig(arg1);
 }
@@ -82,6 +82,17 @@ static void loadPrefs() {
 }
 
 %end
+
+// settings cell
+%hook PSSpecifier
+
+-(NSString *)name {
+	NSString *temp = %orig();
+	// NSLog(@"SystemOverwrite LOG: PSSpecifier name: %@", temp);
+    return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+}
+
+%end
 // ########### Tested and are working [end] ###########
 
 
@@ -99,15 +110,7 @@ static void loadPrefs() {
 // %end
 // ########### This seems unneeded as all of my findings are also within UILabel ###########
 
-%hook PSSpecifier
 
--(NSString *)name {
-	NSString *temp = %orig();
-	NSLog(@"SystemOverwrite LOG: PSSpecifier name: %@", temp);
-    return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
-}
-
-%end
 
 // ############################# CONSTRUCTOR ### START ####################################
 

@@ -15,7 +15,7 @@
 		<key>isController</key>
 		<true/>
 		<key>label</key>
-		<string>systemoverwritepref</string>
+		<string>SystemOverwrite</string>
 	</dict>
 </dict>
 </plist>

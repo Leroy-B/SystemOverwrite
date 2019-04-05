@@ -47,7 +47,29 @@
 
 - (void)_returnKeyPressed:(NSNotificationCenter *)notification{
     [self.view endEditing:YES];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"ch.bonventre.alphachangetextpref.preferencesChanged" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ch.bonventre.systemoverwritepref.preferencesChanged" object:self];
+}
+
+-(void)viewDidLoad{
+
+	UIBarButtonItem *shareButton = [[UIBarButtonItem alloc]
+						   initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                           target:self
+                           action:@selector(share:)];
+
+	self.navigationItem.rightBarButtonItem = shareButton;
+
+	[shareButton release];
+	[super viewDidLoad];
+}
+
+-(IBAction)share:(UIBarButtonItem *)sender{
+	NSString *textToShare = @"Click the link below to add LeroyB's beta repository to Cydia!";
+    NSURL *myWebsite = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://repo.bonventre.ch"];
+    NSArray *activityItems = @[textToShare, myWebsite];
+    UIActivityViewController *activityViewControntroller = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    activityViewControntroller.excludedActivityTypes = @[];
+    [self presentViewController:activityViewControntroller animated:true completion:nil];
 }
 
 @end
