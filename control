@@ -1,6 +1,6 @@
 Package: ch.bonventre.systemoverwrite
 Name: SystemOverwrite
-Depends: mobilesubstrate
+Depends: mobilesubstrate, firmware (>= 10.1.1)
 Version: 0.0.1
 Architecture: iphoneos-arm
 Description: An awesome MobileSubstrate tweak!

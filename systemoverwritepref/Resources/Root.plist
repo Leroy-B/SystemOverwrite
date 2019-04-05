@@ -56,6 +56,91 @@
 			<key>PostNotification</key>
 			<string>ch.bonventre.systemoverwritepref.preferencesChanged</string>
 		</dict>
+		<!-- actions start -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>actions</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Apply settings and respring!</string>
+			<key>action</key>
+			<string>respring</string>
+		</dict>
+		<!-- actions end -->
+		<!-- infos start -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>infos</string>
+			<key>footerText</key>
+			<string>SystemOverwrite by LeroyB. Build 0.0.1 [Friday, 5 April 12019]</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>paypal.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Donate via PayPal :)</string>
+			<key>action</key>
+			<string>showPayPal</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>monero.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Donate via Monero ;)</string>
+			<key>action</key>
+			<string>showMonero</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>bitcoin.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Donate via Bitcoin :)</string>
+			<key>action</key>
+			<string>showBitcoin</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>twitter.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Send me a message @IDEK_a_Leroy</string>
+			<key>action</key>
+			<string>showTwitter</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>reddit.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Send me a message u/IDEK_a_Leroy</string>
+			<key>action</key>
+			<string>showReddit</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>github.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Source Code</string>
+			<key>action</key>
+			<string>showSourceCode</string>
+		</dict>
 	</array>
 	<key>title</key>
 	<string>SystemOverwrite</string>

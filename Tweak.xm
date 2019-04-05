@@ -13,7 +13,6 @@ static void loadPrefs() {
 		twLabelToReplace    	= ([prefs objectForKey:@"pfLabelToReplace"] ? [[prefs objectForKey:@"pfLabelToReplace"] description] : twLabelToReplace);
 		twLabelToReplaceWith    = ([prefs objectForKey:@"pfLabelToReplaceWith"] ? [[prefs objectForKey:@"pfLabelToReplaceWith"] description] : twLabelToReplaceWith);
     }
-	//NSLog(@"AlwaysRemindMe LOG: after prefs: %@", prefs);
     [prefs release];
 }
 
@@ -24,10 +23,11 @@ static void loadPrefs() {
 
 -(void) setDisplayName:(id)arg1 {
 	if(twIsEnabled) {
-		// NSLog(@"SystemOverwrite LOG: SBFolder arg1: %@", arg1);
 		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		%orig(arg1);
+	} else {
+		%orig(arg1);
 	}
-	%orig(arg1);
 }
 
 %end
@@ -36,11 +36,12 @@ static void loadPrefs() {
 %hook UILabel
 
 -(void)setText:(NSString *)arg1 {
-	// NSLog(@"SystemOverwrite LOG: UILabel arg1: %@", arg1);
 	if(twIsEnabled) {
 		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		%orig(arg1);
+	} else {
+		%orig(arg1);
 	}
-	%orig(arg1);
 }
 
 %end
@@ -49,9 +50,12 @@ static void loadPrefs() {
 %hook SBIconLabelImageParameters
 
 -(NSString *)text {
-	NSString *temp = %orig();
-	// NSLog(@"SystemOverwrite LOG: SBIconLabelImageParameters text: %@", temp);
-    return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+	if(twIsEnabled) {
+		NSString *temp = %orig();
+	    return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+	} else {
+		return %orig();
+	}
 }
 
 %end
@@ -60,25 +64,29 @@ static void loadPrefs() {
 %hook NCNotificationContentView
 
 -(void)setPrimaryText:(NSString *)text {
-	// NSLog(@"SystemOverwrite LOG: setPrimaryText text: %@", text);
-    if (!text) {
-        %orig(text);
-        return;
-    }
-	NSString *temp = text;
-	temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
-	%orig(temp);
+	if(twIsEnabled) {
+		if (!text) {
+	        %orig(text);
+	    }
+		NSString *temp = text;
+		temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+		%orig(temp);
+	} else {
+		%orig(text);
+	}
 }
 
 -(void)setSecondaryText:(NSString *)text {
-	// NSLog(@"SystemOverwrite LOG: setSecondaryText text: %@", text);
-    if (!text) {
-        %orig(text);
-        return;
-    }
-	NSString *temp = text;
-	temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
-	%orig(temp);
+	if(twIsEnabled) {
+		if (!text) {
+	        %orig(text);
+	    }
+		NSString *temp = text;
+		temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+		%orig(temp);
+	} else {
+		%orig(text);
+	}
 }
 
 %end
@@ -86,10 +94,58 @@ static void loadPrefs() {
 // settings cell
 %hook PSSpecifier
 
--(NSString *)name {
-	NSString *temp = %orig();
-	// NSLog(@"SystemOverwrite LOG: PSSpecifier name: %@", temp);
-    return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+-(void)setName:(NSString *)arg1 {
+	if(twIsEnabled) {
+		if (!arg1) {
+	        %orig(arg1);
+	    }
+		NSString *temp = arg1;
+		temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+		%orig(temp);
+	} else {
+		%orig(arg1);
+	}
+}
+
+%end
+
+// general substring
+%hook SBUILegibilityLabel
+
+-(NSString *)string {
+	if(twIsEnabled) {
+		NSString *temp = %orig();
+	    return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+	} else {
+		return %orig();
+	}
+}
+
+-(void)setString:(NSString *)arg1 {
+	if(twIsEnabled) {
+		if (!arg1) {
+			%orig(arg1);
+		}
+		NSString *temp = arg1;
+		temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+		%orig(temp);
+	} else {
+		%orig(arg1);
+	}
+}
+
+%end
+
+// list title
+%hook UITableViewLabel
+
+-(void)setText:(id)arg1 {
+	if(twIsEnabled) {
+		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		%orig(arg1);
+	} else {
+		%orig(arg1);
+	}
 }
 
 %end
@@ -110,20 +166,50 @@ static void loadPrefs() {
 // %end
 // ########### This seems unneeded as all of my findings are also within UILabel ###########
 
+%hook UITextField
+
+-(void)setAb_text:(NSString *)arg1 {
+	if(twIsEnabled) {
+		// NSLog(@"SystemOverwrite LOG: UITextField-setAb_text arg1: %@", arg1);
+		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		%orig(arg1);
+	} else {
+		%orig(arg1);
+	}
+}
+
+-(void)setText:(NSString *)arg1 {
+	if(twIsEnabled) {
+		// NSLog(@"SystemOverwrite LOG: UITextField-setText arg1: %@", arg1);
+		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		%orig(arg1);
+	} else {
+		%orig(arg1);
+	}
+}
+
+-(void)setPlaceholder:(NSString *)arg1 {
+	if(twIsEnabled) {
+		// NSLog(@"SystemOverwrite LOG: UITextField-setPlaceholder arg1: %@", arg1);
+		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		%orig(arg1);
+	} else {
+		%orig(arg1);
+	}
+}
+
+%end
 
 
 // ############################# CONSTRUCTOR ### START ####################################
 
 static void preferencesChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo){
     loadPrefs();
-	NSLog(@"SystemOverwrite LOG: 'loadPrefs' called in 'preferencesChanged'");
 }
 
 %ctor {
 	@autoreleasepool {
-		// load the saved preferences from the plist
 		loadPrefs();
-		// listen for changes to settings
 		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
 			NULL,
 			(CFNotificationCallback)preferencesChanged,
