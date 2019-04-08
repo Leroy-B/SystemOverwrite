@@ -1,3 +1,8 @@
+// TODO
+
+// Known issues:
+//		- crash if the label is about to be predicted in one of the boxes above the keyboard
+
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/ch.bonventre.systemoverwritepref.plist"
 
@@ -113,32 +118,37 @@ static void loadPrefs() {
 %hook SBUILegibilityLabel
 
 -(NSString *)string {
-	if(twIsEnabled) {
-		NSString *temp = %orig();
-	    return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
-	} else {
-		return %orig();
-	}
+	NSString *temp = %orig();
+	NSLog(@"SystemOverwrite LOG: SBUILegibilityLabel-string arg1: %@", temp);
+	return %orig();
+	//
+	// if(twIsEnabled) {
+	// 	NSString *temp = %orig();
+	//     return temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+	// } else {
+	// 	return %orig();
+	// }
 }
 
 -(void)setString:(NSString *)arg1 {
-	if(twIsEnabled) {
-		if (!arg1) {
-			%orig(arg1);
-		}
-		NSString *temp = arg1;
-		temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
-		%orig(temp);
-	} else {
-		%orig(arg1);
-	}
+	NSLog(@"SystemOverwrite LOG: SBUILegibilityLabel-setString arg1: %@", arg1);
+	%orig(arg1);
+	//
+	// if(twIsEnabled) {
+	// 	if (!arg1) {
+	// 		%orig(arg1);
+	// 	}
+	// 	NSString *temp = arg1;
+	// 	temp = [temp stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [temp length])];
+	// 	%orig(temp);
+	// } else {
+	// 	%orig(arg1);
+	// }
 }
-
 %end
 
 // list title
 %hook UITableViewLabel
-
 -(void)setText:(id)arg1 {
 	if(twIsEnabled) {
 		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
@@ -147,8 +157,20 @@ static void loadPrefs() {
 		%orig(arg1);
 	}
 }
-
 %end
+
+%hook UITextField
+-(void)setPlaceholder:(NSString *)arg1 {
+	if(twIsEnabled) {
+		// NSLog(@"SystemOverwrite LOG: UITextField-setPlaceholder arg1: %@", arg1);
+		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
+		%orig(arg1);
+	} else {
+		%orig(arg1);
+	}
+}
+%end
+
 // ########### Tested and are working [end] ###########
 
 
@@ -187,17 +209,6 @@ static void loadPrefs() {
 		%orig(arg1);
 	}
 }
-
--(void)setPlaceholder:(NSString *)arg1 {
-	if(twIsEnabled) {
-		// NSLog(@"SystemOverwrite LOG: UITextField-setPlaceholder arg1: %@", arg1);
-		arg1 = [arg1 stringByReplacingOccurrencesOfString:twLabelToReplace withString:twLabelToReplaceWith options:NSCaseInsensitiveSearch range:NSMakeRange(0, [arg1 length])];
-		%orig(arg1);
-	} else {
-		%orig(arg1);
-	}
-}
-
 %end
 
 

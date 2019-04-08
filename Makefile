@@ -1,7 +1,7 @@
 include $(THEOS)/makefiles/common.mk
 
-THEOS_DEVICE_IP = 192.168.1.56
-# THEOS_DEVICE_IP = local
+# THEOS_DEVICE_IP = 192.168.1.56
+THEOS_DEVICE_IP = local
 TARGET = iphone:clang:11.2:10.1.1
 ARCHS = arm64
 # TARGET = simulator:clang:11.4:11.4
